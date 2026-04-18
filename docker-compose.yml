@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: blog-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: blog_root_pass
+      MYSQL_DATABASE: blog
+      MYSQL_USER: blog_user
+      MYSQL_PASSWORD: blog_pass_123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - blog-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Spring Boot 后端
+  backend:
+    build:
+      context: ./blog-backend
+      dockerfile: Dockerfile
+    container_name: blog-backend
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blog?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: blog_user
+      SPRING_DATASOURCE_PASSWORD: blog_pass_123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - blog-network
+
+  # Vue3 前端 + Nginx
+  frontend:
+    build:
+      context: ./blog-frontend
+      dockerfile: Dockerfile
+    container_name: blog-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - blog-network
+
+volumes:
+  mysql_data:
+
+networks:
+  blog-network:
+    driver: bridge
