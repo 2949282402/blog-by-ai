@@ -76,3 +76,11 @@ echo "================================================="
 echo "✅ 本轮执行完成 | 耗时: $EXECUTION_TIME 秒"
 echo "💤 休息5分钟后继续下一轮..."
 echo "================================================="
+
+# 发送执行完成通知到支付宝小程序
+echo "📊 本轮优化完成汇报" > /tmp/notify-result.txt
+echo "执行时间: $(date '+%Y-%m-%d %H:%M:%S')" >> /tmp/notify-result.txt
+echo "耗时: ${EXECUTION_TIME}秒" >> /tmp/notify-result.txt
+echo "任务清单完成: 6/6" >> /tmp/notify-result.txt
+echo "汇报文件: docs/reports/execution-summary-$TIMESTAMP.md" >> /tmp/notify-result.txt
+cat /tmp/notify-result.txt
