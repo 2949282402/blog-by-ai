@@ -2,7 +2,7 @@ package com.blog.service;
 
 import com.blog.dto.PostDTO;
 import com.blog.entity.Post;
-import com.blog.repository.PostRepository;
+import com.blog.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -12,28 +12,27 @@ import java.util.stream.Collectors;
 public class PostService {
     
     @Autowired
-    private PostRepository postRepository;
+    private PostMapper postMapper;
     
     public List<PostDTO> getAllPosts() {
-        return postRepository.findByPublishedTrueOrderByCreatedAtDesc()
-                .stream()
+        return postMapper.findAllPublished().stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
     
     public PostDTO getPostById(Long id) {
-        Post post = postRepository.findByIdAndPublishedTrue(id);
+        Post post = postMapper.findByIdAndPublished(id);
         return post != null ? toDTO(post) : null;
     }
     
     public PostDTO createPost(PostDTO postDTO) {
         Post post = toEntity(postDTO);
-        Post saved = postRepository.save(post);
-        return toDTO(saved);
+        postMapper.insert(post);
+        return toDTO(post);
     }
     
     public PostDTO updatePost(Long id, PostDTO postDTO) {
-        Post existing = postRepository.findById(id).orElse(null);
+        Post existing = postMapper.findById(id);
         if (existing != null) {
             existing.setTitle(postDTO.getTitle());
             existing.setContent(postDTO.getContent());
@@ -41,14 +40,24 @@ public class PostService {
             existing.setAuthor(postDTO.getAuthor());
             existing.setCoverImage(postDTO.getCoverImage());
             existing.setPublished(postDTO.getPublished());
-            Post updated = postRepository.save(existing);
-            return toDTO(updated);
+            postMapper.update(existing);
+            return toDTO(existing);
         }
         return null;
     }
     
     public void deletePost(Long id) {
-        postRepository.deleteById(id);
+        postMapper.deleteById(id);
+    }
+    
+    public void incrementViewCount(Long id) {
+        postMapper.incrementViewCount(id);
+    }
+    
+    public List<PostDTO> searchPosts(String keyword) {
+        return postMapper.searchByKeyword(keyword).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
     
     private PostDTO toDTO(Post post) {
