@@ -3,6 +3,8 @@ package com.blog.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -33,10 +35,29 @@ public class Post {
     
     private Boolean published = true;
     
+    // 分类关联
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+    
+    // 评论关联
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+    
+    // 点赞数统计
+    @Column(name = "like_count")
+    private Integer likeCount = 0;
+    
+    // 阅读数统计
+    @Column(name = "view_count")
+    private Integer viewCount = 0;
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (likeCount == null) likeCount = 0;
+        if (viewCount == null) viewCount = 0;
     }
     
     @PreUpdate
