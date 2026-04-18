@@ -1,0 +1,119 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+*.log.*
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Frontend build output
+dist/
+dist-ssr/
+*.local
+
+# Sensitive information
+.env
+.env.local
+.env.*.local
+*.properties.secret
+application-secret.yml
+credentials.json
+config.json
+secrets.json
+
+# Tokens and keys
+*.pem
+*.key
+*.p12
+*.pfx
+token.txt
+api-key.txt
+
+# Data files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+.cache/
+
+# Test coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage/
+
+# Logs
+logs/
+log/
+
+# Config that may contain secrets
+config/local*
+config/*local*.properties
+
+# OpenClaw specific
+.openclaw/
+rag-env/
+
+# Reports in workspace root but versioned via script
+OPTIMIZATION_REPORT.md
+*/OPTIMIZATION_REPORT.md
+
+# Large files
+*.mp4
+*.mov
+*.avi
+*.pdf
+*.doc
+*.docx

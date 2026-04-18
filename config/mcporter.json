@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "web-search": {
+      "baseUrl": "http://proxy.agent.tbox.cn/proxy/ant-web-search-prod/mcp"
+    },
+    "cloud-alipay": {
+      "baseUrl": "http://proxy.agent.tbox.cn/proxy/ant-cloud-alipay-prod/mcp"
+    },
+    "multimodal-model": {
+      "baseUrl": "http://proxy.agent.tbox.cn/proxy/ant-multimodal-model-prod/mcp"
+    },
+    "secret-manager": {
+      "baseUrl": "http://proxy.agent.tbox.cn/proxy/ant-secret-manager-prod/mcp"
+    }
+  },
+  "imports": []
+}
